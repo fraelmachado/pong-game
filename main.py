@@ -8,7 +8,7 @@ pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 BALL_SPEED_X, BALL_SPEED_Y = 4, 4
 PADDLE_SPEED = 6
-OPPONENT_SPEED = 5  # Velocidade inicial do oponente
+OPPONENT_SPEED = 5
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
@@ -17,9 +17,12 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Pong')
 
 # Definindo as posições e dimensões
-ball = pygame.Rect(SCREEN_WIDTH / 2 - 15, SCREEN_HEIGHT / 2 - 15, 30, 30)
-player = pygame.Rect(SCREEN_WIDTH - 20, SCREEN_HEIGHT / 2 - 70, 10, 140)
-opponent = pygame.Rect(10, SCREEN_HEIGHT / 2 - 70, 10, 140)
+# Bola menor e quadrada
+ball = pygame.Rect(SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT / 2 - 10, 20, 20)
+
+# Raquetes maiores e mais largas, como na imagem
+player = pygame.Rect(SCREEN_WIDTH - 20, SCREEN_HEIGHT / 2 - 50, 10, 100)
+opponent = pygame.Rect(10, SCREEN_HEIGHT / 2 - 50, 10, 100)
 
 # Velocidades iniciais da bola e dos jogadores
 ball_speed_x, ball_speed_y = BALL_SPEED_X, BALL_SPEED_Y
@@ -33,11 +36,18 @@ font = pygame.font.Font(None, 36)
 # Função para desenhar os objetos na tela
 def draw():
     screen.fill(BLACK)
+    
+    # Desenhando as raquetes
     pygame.draw.rect(screen, WHITE, player)
     pygame.draw.rect(screen, WHITE, opponent)
-    pygame.draw.ellipse(screen, WHITE, ball)
-    pygame.draw.aaline(screen, WHITE, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
-
+    
+    # Desenhando a bola quadrada
+    pygame.draw.rect(screen, WHITE, ball)
+    
+    # Desenhando a linha pontilhada no meio
+    for i in range(0, SCREEN_HEIGHT, 20):
+        pygame.draw.rect(screen, WHITE, (SCREEN_WIDTH / 2 - 2, i, 4, 10))
+    
     # Exibir pontuação
     player_text = font.render(f"{player_score}", True, WHITE)
     screen.blit(player_text, (SCREEN_WIDTH / 2 + 20, 20))
